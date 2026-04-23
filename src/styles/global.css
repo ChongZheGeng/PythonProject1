@@ -1,0 +1,74 @@
+:root {
+  color: #1f324f;
+  background: #eef2f6;
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: #eef2f6; }
+
+.left-sider {
+  border-right: 1px solid #d7e0eb;
+  background: #f7fafd !important;
+}
+.logo-block {
+  padding: 16px;
+  border-bottom: 1px solid #dde6f1;
+  color: #334d72;
+  background: linear-gradient(180deg, #f8fbff, #edf3fa);
+}
+.top-header {
+  height: 64px;
+  line-height: 64px;
+  padding: 0 20px;
+  background: #f7fbff;
+  border-bottom: 1px solid #d6e0ec;
+}
+.main-content {
+  padding: 12px;
+  min-width: 1200px;
+}
+
+.panel-card {
+  border: 1px solid #d8e2ef;
+  box-shadow: 0 2px 8px rgba(29, 53, 87, 0.06);
+}
+.panel-card .ant-card-head {
+  background: #f4f8fd;
+  border-bottom: 1px solid #dde7f2;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  background: #f8fbff;
+  border: 1px solid #e2eaf5;
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+.metric-card {
+  padding: 10px;
+  border: 1px solid #dce5f0;
+  border-radius: 8px;
+  background: #fbfdff;
+}
+.metric-title { font-size: 13px; color: #566b86; margin-bottom: 6px; }
+.metric-desc { font-size: 12px; color: #8293a8; }
+.alarm-msg { color: #314867; font-size: 12px; }
+
+.tower-diagram { height: 360px; border: 1px dashed #cdd8e6; border-radius: 8px; background: #fcfeff; }
+.tower-svg { width: 100%; height: 100%; }
+
+.log-scroll {
+  max-height: 140px;
+  overflow: auto;
+  padding-right: 6px;
+}
+.advice-card {
+  border-left: 4px solid #d07a15;
+  background: #fffaf2;
+}
+
+@media (max-width: 1440px) {
+  .main-content { min-width: auto; }
+}
