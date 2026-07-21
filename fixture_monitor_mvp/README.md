@@ -17,6 +17,7 @@
 
 ```text
 fixture_monitor_mvp/
+├─ start.py            推荐启动入口；自动检查并安装缺失依赖
 ├─ main.py             主界面、曲线和业务逻辑
 ├─ serial_worker.py    后台串口线程
 ├─ data_parser.py      STM32 数据帧解析
@@ -51,7 +52,7 @@ fixture_monitor_mvp/
 
 ## 重要：命令应输入在终端，不是 Python Console
 
-`cd`、`pip install`、`python main.py` 都是 **PowerShell/CMD 命令**，不能粘贴到 PyCharm 的 **Python Console**。如果在 Python Console 中输入：
+`cd`、`pip install`、`python start.py` 都是 **PowerShell/CMD 命令**，不能粘贴到 PyCharm 的 **Python Console**。如果在 Python Console 中输入：
 
 ```text
 cd fixture_monitor_mvp
@@ -65,7 +66,7 @@ cd fixture_monitor_mvp
 View → Tool Windows → Terminal
 ```
 
-然后在底部的 Terminal 中执行命令。也可以直接右键 `fixture_monitor_mvp/main.py`，选择 **Run 'main'**。
+然后在底部的 Terminal 中执行命令。也可以直接右键 `fixture_monitor_mvp/start.py`，选择 **Run 'start'**。
 
 ## 安装与运行
 
@@ -73,16 +74,26 @@ View → Tool Windows → Terminal
 
 ### 方法一：Windows 一键启动（推荐）
 
-在资源管理器中进入 `fixture_monitor_mvp` 文件夹：
+在资源管理器中进入 `fixture_monitor_mvp` 文件夹，直接双击：
 
-1. 首次运行双击 `setup_windows.bat`；
-2. 安装完成后双击 `run_windows.bat`。
+```text
+run_windows.bat
+```
 
-也可以在 PyCharm Terminal 中执行：
+启动脚本会优先使用项目内 `.venv`；如果缺少 PySide6、PyQtGraph 或 PySerial，会自动安装到当前解释器后再启动程序。
+
+首次使用也可以先双击：
+
+```text
+setup_windows.bat
+```
+
+它会创建项目内虚拟环境并安装完整依赖。
+
+在 PyCharm Terminal 中执行：
 
 ```powershell
 cd D:\PythonProject1\fixture_monitor_mvp
-.\setup_windows.bat
 .\run_windows.bat
 ```
 
@@ -94,14 +105,19 @@ cd D:\PythonProject1\fixture_monitor_mvp
 D:\labview\.venv\Scripts\python.exe
 ```
 
-请在 **PyCharm Terminal** 中直接执行：
+直接运行新的依赖检查启动器：
+
+```powershell
+D:\labview\.venv\Scripts\python.exe D:\PythonProject1\fixture_monitor_mvp\start.py
+```
+
+`start.py` 会检查 `PySide6`、`pyqtgraph` 和 `pyserial`。发现缺失依赖时，会使用同一个解释器自动执行：
 
 ```powershell
 D:\labview\.venv\Scripts\python.exe -m pip install -r D:\PythonProject1\fixture_monitor_mvp\requirements.txt
-D:\labview\.venv\Scripts\python.exe D:\PythonProject1\fixture_monitor_mvp\main.py
 ```
 
-不需要在 Python Console 中执行 `cd` 或激活虚拟环境。
+因此不需要先激活虚拟环境，也不容易出现“包安装到了另一个 Python 环境”的问题。
 
 ### 方法三：手动创建项目虚拟环境
 
@@ -111,16 +127,44 @@ D:\labview\.venv\Scripts\python.exe D:\PythonProject1\fixture_monitor_mvp\main.p
 cd D:\PythonProject1\fixture_monitor_mvp
 python -m venv .venv
 .venv\Scripts\python.exe -m pip install -r requirements.txt
-.venv\Scripts\python.exe main.py
+.venv\Scripts\python.exe start.py
 ```
 
 这种方式不依赖 `Activate.ps1`，可避免 PowerShell 执行策略问题。
+
+## 常见错误：No module named 'pyqtgraph'
+
+出现：
+
+```text
+ModuleNotFoundError: No module named 'pyqtgraph'
+```
+
+表示启动程序所使用的 Python 解释器中没有安装 `pyqtgraph`。最常见原因是：依赖安装到了另一个虚拟环境，但运行时用了 `D:\labview\.venv\Scripts\python.exe`。
+
+推荐修复：
+
+```powershell
+D:\labview\.venv\Scripts\python.exe D:\PythonProject1\fixture_monitor_mvp\start.py
+```
+
+也可以手动安装：
+
+```powershell
+D:\labview\.venv\Scripts\python.exe -m pip install -r D:\PythonProject1\fixture_monitor_mvp\requirements.txt
+```
+
+安装后验证：
+
+```powershell
+D:\labview\.venv\Scripts\python.exe -c "import PySide6, pyqtgraph, serial; print('依赖正常')"
+```
 
 ## PyCharm 运行配置
 
 推荐设置：
 
-- Script path：`D:\PythonProject1\fixture_monitor_mvp\main.py`
+- Script path：`D:\PythonProject1\fixture_monitor_mvp\start.py`
 - Working directory：`D:\PythonProject1\fixture_monitor_mvp`
 - Python interpreter：`D:\labview\.venv\Scripts\python.exe`，或项目中的 `.venv\Scripts\python.exe`
 
