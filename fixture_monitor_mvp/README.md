@@ -23,28 +23,90 @@ fixture_monitor_mvp/
 ├─ data_logger.py      CSV 数据记录
 ├─ config.py           默认参数及报警阈值
 ├─ requirements.txt    Python 依赖
+├─ setup_windows.bat   Windows 一键创建环境并安装依赖
+├─ run_windows.bat     Windows 一键启动程序
 └─ tests/
    └─ test_data_parser.py
 ```
 
+## 重要：命令应输入在终端，不是 Python Console
+
+`cd`、`pip install`、`python main.py` 都是 **PowerShell/CMD 命令**，不能粘贴到 PyCharm 的 **Python Console**。如果在 Python Console 中输入：
+
+```text
+cd fixture_monitor_mvp
+```
+
+会得到 `SyntaxError: invalid syntax`，这不是程序代码错误。
+
+在 PyCharm 中请打开：
+
+```text
+View → Tool Windows → Terminal
+```
+
+然后在底部的 Terminal 中执行命令。也可以直接右键 `fixture_monitor_mvp/main.py`，选择 **Run 'main'**。
+
 ## 安装与运行
 
-建议使用 Python 3.11。
+支持 Python 3.10 或 3.11。
 
-```bash
-cd fixture_monitor_mvp
-python -m venv .venv
-```
+### 方法一：Windows 一键启动（推荐）
 
-Windows PowerShell：
+在资源管理器中进入 `fixture_monitor_mvp` 文件夹：
+
+1. 首次运行双击 `setup_windows.bat`；
+2. 安装完成后双击 `run_windows.bat`。
+
+也可以在 PyCharm Terminal 中执行：
 
 ```powershell
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python main.py
+cd D:\PythonProject1\fixture_monitor_mvp
+.\setup_windows.bat
+.\run_windows.bat
 ```
 
+### 方法二：使用你现有的 PyCharm 解释器
+
+如果当前解释器是：
+
+```text
+D:\labview\.venv\Scripts\python.exe
+```
+
+请在 **PyCharm Terminal** 中直接执行：
+
+```powershell
+D:\labview\.venv\Scripts\python.exe -m pip install -r D:\PythonProject1\fixture_monitor_mvp\requirements.txt
+D:\labview\.venv\Scripts\python.exe D:\PythonProject1\fixture_monitor_mvp\main.py
+```
+
+不需要在 Python Console 中执行 `cd` 或激活虚拟环境。
+
+### 方法三：手动创建项目虚拟环境
+
+在 PyCharm Terminal 或 PowerShell 中执行：
+
+```powershell
+cd D:\PythonProject1\fixture_monitor_mvp
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe main.py
+```
+
+这种方式不依赖 `Activate.ps1`，可避免 PowerShell 执行策略问题。
+
 没有 STM32 时，点击 **启动模拟数据** 即可测试界面、实时曲线、报警与 CSV 保存。
+
+## PyCharm 运行配置
+
+推荐设置：
+
+- Script path：`D:\PythonProject1\fixture_monitor_mvp\main.py`
+- Working directory：`D:\PythonProject1\fixture_monitor_mvp`
+- Python interpreter：`D:\labview\.venv\Scripts\python.exe`，或项目中的 `.venv\Scripts\python.exe`
+
+设置完成后，点击绿色运行按钮即可，不需要手动输入启动命令。
 
 ## 通信协议
 
@@ -103,8 +165,10 @@ ZERO
 
 ## 测试
 
-```bash
-python -m unittest discover -s tests -v
+在 `fixture_monitor_mvp` 目录下执行：
+
+```powershell
+.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
 ## 后续硬件联调顺序
