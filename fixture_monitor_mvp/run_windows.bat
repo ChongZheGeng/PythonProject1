@@ -16,11 +16,14 @@ if exist ".venv\Scripts\python.exe" (
 )
 
 echo Starting Smart Fixture Monitoring System...
-"%PYTHON_EXE%" main.py
+echo Missing dependencies will be installed automatically into:
+echo %PYTHON_EXE%
+echo.
+"%PYTHON_EXE%" start.py
 if errorlevel 1 (
     echo.
     echo The application exited with an error.
-    echo If dependencies are missing, run setup_windows.bat first.
+    echo You can also run setup_windows.bat to rebuild the local environment.
     pause
     exit /b 1
 )
