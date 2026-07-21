@@ -14,6 +14,13 @@ VIBRATION_LIMIT_G = 0.8
 MAX_POINTS = 500
 SIMULATION_INTERVAL_MS = 50
 
+# Classroom display mode: provide a virtual COM3 even when no physical serial
+# device is connected. It uses the same text protocol as the planned STM32.
+ENABLE_CLASSROOM_DEMO = True
+DEMO_PORT_LABEL = "COM3（课堂演示）"
+DEMO_PORT_SHORT = "COM3"
+DEMO_PORT_DEVICE = "__CLASSROOM_DEMO__"
+
 # BMI088 mounted on a stationary fixture normally measures about 1 g in total.
 # When enabled, the UI displays the absolute deviation from 1 g as a simple
 # dynamic-vibration indicator. Disable this if the STM32 already removes gravity.
