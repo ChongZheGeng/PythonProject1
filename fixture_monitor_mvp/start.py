@@ -1,7 +1,7 @@
-"""Dependency-aware launcher for the classroom demonstration app.
+"""Dependency-aware launcher for the smart fixture monitoring application.
 
 Run this file with any chosen Python interpreter. Missing third-party packages
-are installed into that same interpreter before ``main.py`` is started.
+are installed into that same interpreter before the graphical interface starts.
 """
 
 from __future__ import annotations
@@ -78,10 +78,19 @@ def main() -> int:
         return 1
 
     # Import only after dependencies are confirmed, so ModuleNotFoundError does
-    # not terminate the program before the automatic repair can run.
-    from main import main as run_application
+    # not terminate the launcher before the automatic repair can run.
+    from PySide6.QtGui import QFont
+    from PySide6.QtWidgets import QApplication
 
-    return int(run_application())
+    import config
+    from clean_ui import MainWindow
+
+    app = QApplication(sys.argv)
+    app.setApplicationName(config.APP_TITLE)
+    app.setFont(QFont("Microsoft YaHei", 10))
+    window = MainWindow()
+    window.show()
+    return int(app.exec())
 
 
 if __name__ == "__main__":
